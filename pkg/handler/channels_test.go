@@ -163,13 +163,25 @@ func TestIntegrationChannelsListQueryFilter(t *testing.T) {
 	reader := csv.NewReader(strings.NewReader(toolOutput.String()))
 	rows, err := reader.ReadAll()
 	require.NoError(t, err, "Failed to parse CSV")
+	require.GreaterOrEqual(t, len(rows), 1, "CSV must have at least a header row")
+
+	nameIdx := -1
+	for i, col := range rows[0] {
+		if col == "Name" {
+			nameIdx = i
+			break
+		}
+	}
+	require.NotEqualf(t, -1, nameIdx, "CSV did not contain Name column; header: %v", rows[0])
 
 	dataRows := rows[1:]
 	for _, row := range dataRows {
-		assert.Containsf(t, strings.ToLower(row[0]), "testcase",
-			"Expected all results to match query 'testcase', got: %s", row[0])
-		assert.NotContainsf(t, strings.ToLower(row[0]), "general",
-			"Expected #general to be filtered out, but found: %s", row[0])
+		require.Less(t, nameIdx, len(row), "row shorter than Name column index")
+		name := strings.ToLower(row[nameIdx])
+		assert.Containsf(t, name, "testcase",
+			"Expected all results to match query 'testcase', got: %s", row[nameIdx])
+		assert.NotContainsf(t, name, "general",
+			"Expected #general to be filtered out, but found: %s", row[nameIdx])
 	}
 	assert.GreaterOrEqual(t, len(dataRows), 3, "Expected at least testcase-1, testcase-2, testcase-3")
 }
