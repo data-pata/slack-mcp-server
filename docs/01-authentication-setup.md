@@ -1,15 +1,5 @@
 ### 1. Authentication Setup
 
-> **Maintainer note**
->
-> I’m currently seeking a new **full-time or contract engineering role** after losing my primary job.  
-> This directly impacts my ability to maintain this project long-term.
->
-> If you know a **Hiring Manager, Engineering Manager, or startup team** that might be a good fit, I’d be grateful for an introduction.
->
-> 👉 See the full context in **[this issue](https://github.com/korotovsky/slack-mcp-server/issues/150)**  
-> 📩 Contact: `dmitry@korotovsky.io`
-
 Open up your Slack in your browser and login.
 
 > **Note**: You only need one of the following: an `xoxp-*` User OAuth token, an `xoxb-*` Bot token, or both `xoxc-*` and `xoxd-*` session tokens. User/Bot tokens are more secure and do not require a browser session. If multiple are provided, priority is `xoxp` > `xoxb` > `xoxc/xoxd`.
